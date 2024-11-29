@@ -1,0 +1,51 @@
+<idea-plugin>
+    <id>com.alex.alekseev.CombineAndCopyFiles</id>
+    <name>Copy Files to Clipboard for LLM</name>
+    <version>2.0.0</version>
+    <vendor email="alex@daniks.com" url="https://github.com/aaalekseev/">Alex Alekseev</vendor>
+    <description>
+        Effortlessly combine and copy the contents of multiple files or entire directories directly to your clipboard, with all content neatly organized by their paths and relative file names. This feature allows you to gather and merge code snippets, documents, logs, or any other files into a single, cohesive text output.
+        With extensive settings for customizable file and directory exclusions, you have full control over what content is included or omitted. You can specify patterns or specific files and directories to exclude, ensuring that only relevant information is compiled. This granular control helps in managing large projects with complex structures.
+        This tool is ideal for providing richer context to large language models (LLMs) such as OpenAI's ChatGPT, Anthropic's Claude, Meta's LLaMA, and many others. By supplying these AI models with organized and comprehensive data, you enhance their ability to understand the context and deliver more accurate and insightful responses.
+        Whether you're preparing data for AI-assisted code reviews, documentation, or content generation, this functionality streamlines the process of compiling and sharing extensive information.
+    </description>
+
+    <change-notes>
+        <![CDATA[
+        <h3>Version 2.0.0</h3>
+        <ul>
+            <li>Added directories support.</li>
+            <li>Added exclude directories setting.</li>
+            <li>Added exclude files by name setting.</li>
+            <li>Do not include empty files.</li>
+        </ul>
+        ]]>
+    </change-notes>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <!-- Actions should be registered directly under the root -->
+    <actions>
+        <action id="CombineFilesAction"
+                class="com.alex.alekseev.CombineFilesAction"
+                text="Combine and Copy Files to Clipboard for LLM Input"
+                description="Combine and copy the content of selected files to the clipboard - ready for LLM Input">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="after" relative-to-action="ProjectViewEditSource"/>
+        </action>
+    </actions>
+
+    <!-- Extensions are registered inside the <extensions> tag -->
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Register the application service -->
+        <applicationService serviceImplementation="com.alex.alekseev.settings.CombineFilesSettingsState"/>
+
+        <!-- Register the settings configurable -->
+        <applicationConfigurable id="com.alex.alekseev.settings.CombineFilesSettingsConfigurable"
+                                 displayName="Copy Files for LLM Settings"
+                                 instance="com.alex.alekseev.settings.CombineFilesSettingsConfigurable"/>
+    </extensions>
+
+    <!-- Supports all IDEs starting from version 2019.3 (since-build="193") -->
+    <idea-version since-build="193" />
+</idea-plugin>
